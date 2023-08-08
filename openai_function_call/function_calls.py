@@ -65,7 +65,7 @@ class openai_function:
     def __init__(self, func: Callable) -> None:
         self.func = func
         self.validate_func = validate_arguments(func)
-        parameters = self.validate_func.model.model_json_schema()
+        parameters = self.validate_func.model.schema()
         parameters["properties"] = {
             k: v
             for k, v in parameters["properties"].items()
@@ -127,7 +127,7 @@ class OpenAISchema(BaseModel):
         Returns:
             model_json_schema (dict): A dictionary in the format of OpenAI's schema as jsonschema
         """
-        schema = cls.model_json_schema()
+        schema = cls.schema()
         parameters = {
             k: v for k, v in schema.items() if k not in ("title", "description")
         }
